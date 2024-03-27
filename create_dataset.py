@@ -52,7 +52,7 @@ def load_json():
                           field = 'data')
   return dataset
 
-if __name__ == "__main__"
+if __name__ == "__main__":
   add_options()
   app.run(main)
 
