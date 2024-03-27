@@ -53,6 +53,6 @@ def load_json():
   return dataset
 
 if __name__ == "__main__":
-  add_options()
+  add_option()
   app.run(main)
 
