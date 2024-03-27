@@ -7,6 +7,7 @@ from os.path import join, exists, splitext
 from absl import flags, app
 import numpy as np
 from transformers import AutoTokenizer
+from datasets import load_dataset
 
 FLAGS = flags.FLAGS
 
@@ -42,6 +43,15 @@ def main(unused_argv):
     f.write(json.dumps({'version': "0.1.0", "data": train_samples}, ensure_ascii = False))
   with open('val.json', 'w') as f:
     f.write(json.dumps({'version': "0.1.0", "data": eval_samples}, ensure_ascii = False))
+
+def load_json():
+  dastaset = load_dataset('json',
+                          data_files = {
+                            'train': 'train.json',
+                            'validate': 'val.json',
+                            'test': 'val.json'},
+                          field = 'data')
+  return dataset
 
 if __name__ == "__main__"
   add_options()
