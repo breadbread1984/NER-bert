@@ -13,7 +13,6 @@ FLAGS = flags.FLAGS
 
 def add_option():
   flags.DEFINE_string('dataset', default = 'dataset', help = 'path to dataset directory')
-  flags.DEFINE_string('output', default = 'ner_dataset', help = 'path to processed dataset directory')
 
 def main(unused_argv):
   tokenizer = AutoTokenizer.from_pretrained('google-bert/bert-base-cased')
