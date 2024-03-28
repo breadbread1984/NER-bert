@@ -4,4 +4,4 @@ torch
 transformers
 datasets
 evaluate
-
+seqeval
