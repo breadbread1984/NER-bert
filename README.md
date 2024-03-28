@@ -26,7 +26,8 @@ python3 run_ner.py \
   --model_name_or_path google-bert/bert-base-cased \
   --train_file train.json \
   --output_dir ./ckpt_ner \
-  --do_train
+  --do_train \
+  --overwrite_output_dir
 ```
 
 **NOTE**: run_ner.py is directly adopted from [transformers](https://github.com/huggingface/transformers/blob/main/examples/pytorch/token-classification/run_ner.py)
