@@ -53,9 +53,9 @@ def main(unused_argv):
     samples = train_samples if is_train else eval_samples
     samples.append({'tokens': [token[0] for token in tokens], 'ner_tags': ner_tags})
   with open('train.json', 'w') as f:
-    f.write(json.dumps({'version': "0.1.0", "data": train_samples}, ensure_ascii = False))
+    f.write(json.dumps({'version': "0.1.0", "features": train_samples}, ensure_ascii = False))
   with open('val.json', 'w') as f:
-    f.write(json.dumps({'version': "0.1.0", "data": eval_samples}, ensure_ascii = False))
+    f.write(json.dumps({'version': "0.1.0", "features": eval_samples}, ensure_ascii = False))
 
 def load_json():
   dastaset = load_dataset('json',
