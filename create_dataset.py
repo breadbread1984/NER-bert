@@ -16,7 +16,7 @@ def add_option():
 
 def main(unused_argv):
   tokenizer = AutoTokenizer.from_pretrained('google-bert/bert-base-cased')
-  train_samples, eval_samples = list(), list()
+  samples = list()
   token_tag_map = {'Disease': 'DISEASE', 'Gene': 'GENE', 'Protein': 'PROTEIN', 'Enzyme': 'ENZYME',
                    'Var': 'VAR','MPA': 'MPA', 'Interaction': 'INTERACTION', 'Pathway': 'PATHWAY',
                    'CPA': 'CPA', 'Reg': 'REG', 'PosReg': 'POSREG', 'NegReg': 'NEGREG'}
@@ -41,13 +41,9 @@ def main(unused_argv):
             ('B-' + tag) if idx == 0 else \
             ('E-' + tag) if idx == len(entity_tokens) - 1 else \
             ('I-' + tag)
-    is_train = np.random.multinomial(1, (9/10,1/10), size = 1)[0,0].astype(np.bool_)
-    samples = train_samples if is_train else eval_samples
     samples.append({'tokens': [token[0] for token in tokens], 'ner_tags': ner_tags})
   with open('train.json', 'w') as f:
-    f.write(json.dumps(train_samples, ensure_ascii = False))
-  with open('val.json', 'w') as f:
-    f.write(json.dumps(eval_samples, ensure_ascii = False))
+    f.write(json.dumps(samples, ensure_ascii = False))
 
 def load_json():
   dastaset = load_dataset('json',
