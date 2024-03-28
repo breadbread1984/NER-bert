@@ -23,6 +23,7 @@ Upon generating dataset successfully, two json files are generated under current
 ```shell
 python3 run_ner.py \
   --config_name config.json \
+  --tokenizer_name google-bert/bert-base-cased \
   --train_file train.json \
   --validation_file val.json \
   --output_dir ./ckpt_ner \
