@@ -22,7 +22,6 @@ Upon generating dataset successfully, two json files are generated under current
 
 ```shell
 python3 run_ner.py \
-  --model_name_or_path google-bert/bert-base-cased \
   --config_name config.json \
   --train_file train.json \
   --validation_file val.json \
