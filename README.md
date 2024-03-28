@@ -26,7 +26,7 @@ python3 run_ner.py \
   --config_name config.json \
   --train_file train.json \
   --validation_file val.json \
-  --output_dir /ckpt_ner \
+  --output_dir ./ckpt_ner \
   --do_train \
   --do_eval
 ```
