@@ -27,7 +27,8 @@ python3 run_ner.py \
   --train_file train.json \
   --output_dir ./ckpt_ner \
   --do_train \
-  --overwrite_output_dir
+  --overwrite_output_dir \
+  [--num_train_epochs <epoch number>]
 ```
 
 **NOTE**: run_ner.py is directly adopted from [transformers](https://github.com/huggingface/transformers/blob/main/examples/pytorch/token-classification/run_ner.py)
