@@ -45,15 +45,6 @@ def main(unused_argv):
   with open('train.json', 'w') as f:
     f.write(json.dumps(samples, ensure_ascii = False))
 
-def load_json():
-  dastaset = load_dataset('json',
-                          data_files = {
-                            'train': 'train.json',
-                            'validate': 'val.json',
-                            'test': 'val.json'},
-                          field = 'data')
-  return dataset
-
 if __name__ == "__main__":
   add_option()
   app.run(main)
