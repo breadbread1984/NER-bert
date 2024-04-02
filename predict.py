@@ -103,7 +103,7 @@ def main(unused_argv):
   entities = parse(offset_mapping[0], token_cls[0], id2label)
   print('----results----')
   for label, (start, end) in entities:
-    print('%s: %s' % (FLAGS.input[start:end], label))
+    print('%s(%d, %d): %s' % (FLAGS.input[start:end], start, end, label))
 
 if __name__ == "__main__":
   add_options()
