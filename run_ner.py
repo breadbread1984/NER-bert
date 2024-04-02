@@ -25,6 +25,8 @@ import sys
 import warnings
 from dataclasses import dataclass, field
 from typing import Optional
+from torch import nn
+from torchcrf import CRF
 
 import datasets
 import evaluate
@@ -412,6 +414,27 @@ def main():
         ignore_mismatched_sizes=model_args.ignore_mismatched_sizes,
     )
 
+    class BERT_CRF(nn.Module):
+        def __init__(self, model):
+            super(BERT_CRF, self).__init__()
+            self.encoder = model
+            self.config = self.encoder.config
+            self.crf = CRF(num_tags = self.config.num_labels, batch_first = True)
+        def forward(self, input_ids = None, attention_mask = None, token_type_ids = None, position_ids = None, head_mask = None, inputs_embeds = None, labels = None, output_attentions = None, output_hidden_states = None):
+            outputs = self.encoder(input_ids, attention_mask = attention_mask, token_type_ids = token_type_ids, position_ids = position_ids, head_mask = head_mask, inputs_embeds = inputs_embeds, output_attentions = output_attentions, output_hidden_states = output_hidden_states)
+            logits = outputs.logits
+            loss = None
+            if labels is not None:
+                log_likelihood, tags = self.crf(logits, labels), self.crf.decode(logits)
+                loss = 0 - log_likelihood
+            else:
+                tags = self.crf.decode(logits)
+            tags = torch.Tensor(tags)
+            output = (tags,) + outputs[2:]
+            return ((loss,) + output) if loss is not None else output
+
+    model = BERT_CRF(model)
+
     # Tokenizer check: this script requires a fast tokenizer.
     if not isinstance(tokenizer, PreTrainedTokenizerFast):
         raise ValueError(
@@ -545,7 +568,6 @@ def main():
 
     def compute_metrics(p):
         predictions, labels = p
-        predictions = np.argmax(predictions, axis=2)
 
         # Remove ignored index (special tokens)
         true_predictions = [
