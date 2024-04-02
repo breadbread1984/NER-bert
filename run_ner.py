@@ -425,7 +425,7 @@ def main():
             logits = outputs.logits
             loss = None
             if labels is not None:
-                log_likelihood, tags = self.crf(logits, labels), self.crf.decode(logits)
+                log_likelihood, tags = self.crf(emissions = logits, tags = labels, mask = attention_mask), self.crf.decode(logits)
                 loss = 0 - log_likelihood
             else:
                 tags = self.crf.decode(logits)
