@@ -14,7 +14,7 @@ def add_options():
   flags.DEFINE_string('ckpt', default = 'ckpt_ner', help = 'path to checkpoint directory')
   flags.DEFINE_enum('device', default = 'cuda', enum_values = {'cuda', 'cpu'}, help = 'device to use')
 
-def parse(offset_mapping, token_cls):
+def parse(offset_mapping, token_cls, id2label):
   entities = list()
   status = 'O'
   start = None
