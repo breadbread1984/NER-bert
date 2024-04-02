@@ -1,5 +1,7 @@
 #!/usr/bin/python3
 
+import json
+from os.path import join, exists
 from absl import flags, app
 import torch
 from torch import device
@@ -17,11 +19,17 @@ def main(unused_argv):
   model = AutoModelForTokenClassification.from_pretrained(FLAGS.ckpt)
   model.eval()
   model.to(device(FLAGS.device))
-  inputs = tokenizer(FLAGS.input, return_tensors = 'pt', padding = True)
+  inputs = tokenizer(FLAGS.input, return_tensors = 'pt', padding = True, return_offsets_mapping = True)
+  offset_mapping = inputs.pop('offset_mapping')
   inputs = inputs.to(device(FLAGS.device))
   outputs = model(**inputs)
   token_cls = torch.argmax(outputs.logits, dim = -1)
   print(token_cls)
+  print(token_cls.shape)
+  with open(join(FLAGS.ckpt, 'config.json'), 'r') as f:
+    config = json.loads(f.read())
+  id2label = {int(k):v for k,v in config['id2label'].items()}
+  label2id = config['label2id']
 
 if __name__ == "__main__":
   add_options()
