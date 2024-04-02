@@ -97,12 +97,11 @@ def main(unused_argv):
   outputs = model(**inputs)
   token_cls = torch.argmax(outputs.logits, dim = -1) # token_cls.shape = (batch, seq_len)
   token_cls = token_cls.cpu().numpy()
-  print(token_cls)
-  print(token_cls.shape)
   with open(join(FLAGS.ckpt, 'config.json'), 'r') as f:
     config = json.loads(f.read())
   id2label = {int(k):v for k,v in config['id2label'].items()}
   entities = parse(offset_mapping[0], token_cls[0], id2label)
+  print('----results----')
   for label, (start, end) in entities:
     print('%s: %s' % (FLAGS.input[start:end], label))
 
