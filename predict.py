@@ -30,7 +30,7 @@ def parse(offset_mapping, token_cls, id2label):
         status = label
         start = offset[0]
         end = offset[1]
-        entities.append(label[2:], (start, end))
+        entities.append((label[2:], (start, end)))
       else:
         print('parse error: %s right after %s!' % (label, status))
         status = 'O'
@@ -42,7 +42,7 @@ def parse(offset_mapping, token_cls, id2label):
       elif label.startswith('E-'):
         status = label
         end = offset[1]
-        entities.append(label[2:], (start, end))
+        entities.append((label[2:], (start, end)))
       else:
         print('parse error: %s right after %s!' % (label, status))
         status = 'O'
@@ -54,7 +54,7 @@ def parse(offset_mapping, token_cls, id2label):
       elif label.startswith('E-'):
         status = label
         end = offset[1]
-        entities.append(label[2:], (start, end))
+        entities.append((label[2:], (start, end)))
       else:
         print('parse error: %s right after %s!' % (label, status))
         status = 'O'
@@ -65,7 +65,7 @@ def parse(offset_mapping, token_cls, id2label):
         status = label
         start = offset[0]
         end = offset[1]
-        entities.append(label[2:], (start, end))
+        entities.append((label[2:], (start, end)))
       else:
         print('parse error: %s right after %s!' % (label, status))
         status = 'O'
@@ -78,7 +78,7 @@ def parse(offset_mapping, token_cls, id2label):
         status = label
         start = offset[0]
         end = offset[1]
-        entities.append(label[2:], (start, end))
+        entities.append((label[2:], (start, end)))
       else:
         print('parse error: %s right after %s!' % (label, status))
         status = 'O'
