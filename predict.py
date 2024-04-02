@@ -22,7 +22,8 @@ def parse(offset_mapping, token_cls, id2label):
   for offset, cls in zip(offset_mapping, token_cls):
     label = id2label[cls]
     if status == 'O':
-      if label == 'O': status = label
+      if label == 'O':
+        status = label
       elif label.startswith('B-'):
         status = label
         start = offset[0]
