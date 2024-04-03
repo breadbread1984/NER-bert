@@ -425,7 +425,16 @@ def main():
             logits = outputs.logits
             loss = None
             if labels is not None:
-                log_likelihood, tags = self.crf(emissions = logits, tags = labels, mask = attention_mask), self.crf.decode(logits)
+                import torch
+                # NOTE: input token sequence as a leading token [CLS] and an ending token [SEP], these two special tokens should be removed
+                str_lens = torch.sum(attention_mask, dim = -1) # str_lens.shape = (batch)
+                mask = attention_mask.to(torch.bool)
+                for i in range(str_lens.shape[0]):
+                  mask[i,0] = False # [CLS]
+                  mask[i,str_lens[i] - 1] = False # [SEP]
+                tags = torch.where(mask, labels, torch.zeros_like(labels))
+
+                log_likelihood, tags = self.crf(emissions = logits[:,1:], tags = tags[:,1:], mask = mask[:,1:]), self.crf.decode(logits)
                 loss = 0 - log_likelihood
             else:
                 tags = self.crf.decode(logits)
