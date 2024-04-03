@@ -5,6 +5,7 @@ from os import getcwd
 from os.path import join, exists, abspath
 from absl import flags, app
 import adaseq
+import huggingface
 from modelscope.pipelines import pipeline
 from modelscope.utils.constant import Tasks
 

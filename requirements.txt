@@ -3,4 +3,5 @@ numpy
 torch
 transformers
 datasets
+modelscope
 adaseq
