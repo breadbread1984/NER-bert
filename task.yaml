@@ -42,4 +42,4 @@ evaluation:
     - type: ner-metric
     - type: ner-dumper
       model_type: sequence_labeling
-      dump_format: json_tags
+      dump_format: json_spans
