@@ -43,7 +43,8 @@ def main(unused_argv):
             ('I-' + tag)
     samples.append({'text': [token[0] for token in tokens], 'labels': ner_tags})
   with open('train.json', 'w') as f:
-    f.write(json.dumps(samples, ensure_ascii = False))
+    for sample in samples:
+      f.write(json.dumps(sample, ensure_ascii = False) + '\n')
 
 if __name__ == "__main__":
   add_option()
