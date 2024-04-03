@@ -1,3 +1,8 @@
+experiment:
+  exp_dir: ckpt/
+  exp_name: ner
+  seed: 42
+
 task: named-entity-recognition
 
 dataset:
