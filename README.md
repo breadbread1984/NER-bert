@@ -24,8 +24,6 @@ Upon generating dataset successfully, two json files are generated under current
 adaseq train -c task.yaml
 ```
 
-**NOTE**: run_ner.py is directly adopted from [transformers](https://github.com/huggingface/transformers/blob/main/examples/pytorch/token-classification/run_ner.py)
-
 ## predict with NER
 
 ```shell
