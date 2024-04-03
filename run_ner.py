@@ -21,6 +21,7 @@ Fine-tuning the library models for token classification.
 
 import logging
 import os
+from os.path import join, exists
 import sys
 import warnings
 from dataclasses import dataclass, field
