@@ -25,8 +25,6 @@ import sys
 import warnings
 from dataclasses import dataclass, field
 from typing import Optional
-from torch import nn
-from torchcrf import CRF
 
 import datasets
 import evaluate
@@ -49,6 +47,7 @@ from transformers import (
 from transformers.trainer_utils import get_last_checkpoint
 from transformers.utils import check_min_version, send_example_telemetry
 from transformers.utils.versions import require_version
+from models import BERT_CRF
 
 
 # Will error if the minimal version of Transformers is not installed. Remove at your own risks.
@@ -413,34 +412,6 @@ def main():
         trust_remote_code=model_args.trust_remote_code,
         ignore_mismatched_sizes=model_args.ignore_mismatched_sizes,
     )
-
-    class BERT_CRF(nn.Module):
-        def __init__(self, model):
-            super(BERT_CRF, self).__init__()
-            self.encoder = model
-            self.config = self.encoder.config
-            self.crf = CRF(num_tags = self.config.num_labels, batch_first = True)
-        def forward(self, input_ids = None, attention_mask = None, token_type_ids = None, position_ids = None, head_mask = None, inputs_embeds = None, labels = None, output_attentions = None, output_hidden_states = None):
-            outputs = self.encoder(input_ids, attention_mask = attention_mask, token_type_ids = token_type_ids, position_ids = position_ids, head_mask = head_mask, inputs_embeds = inputs_embeds, output_attentions = output_attentions, output_hidden_states = output_hidden_states)
-            logits = outputs.logits
-            loss = None
-            if labels is not None:
-                import torch
-                # NOTE: input token sequence as a leading token [CLS] and an ending token [SEP], these two special tokens should be removed
-                str_lens = torch.sum(attention_mask, dim = -1) # str_lens.shape = (batch)
-                mask = attention_mask.to(torch.bool)
-                for i in range(str_lens.shape[0]):
-                  mask[i,0] = False # [CLS]
-                  mask[i,str_lens[i] - 1] = False # [SEP]
-                tags = torch.where(mask, labels, torch.zeros_like(labels))
-
-                log_likelihood, tags = self.crf(emissions = logits[:,1:], tags = tags[:,1:], mask = mask[:,1:]), self.crf.decode(logits)
-                loss = 0 - log_likelihood
-            else:
-                tags = self.crf.decode(logits)
-            tags = torch.Tensor(tags)
-            output = (tags,) + outputs[2:]
-            return ((loss,) + output) if loss is not None else output
 
     model = BERT_CRF(model)
 
