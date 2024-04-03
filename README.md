@@ -29,7 +29,7 @@ adaseq train -c task.yaml
 ## predict with NER
 
 ```shell
-python3 predict.py --ckpt ./ckpt_ner --device (cpu|cuda) --input <input string>
+python3 predict.py --ckpt ckpt/<id>/output_best --device (cpu|cuda) --input <input string>
 ```
 
 example:
