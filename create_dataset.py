@@ -41,7 +41,7 @@ def main(unused_argv):
             ('B-' + tag) if idx == 0 else \
             ('E-' + tag) if idx == len(entity_tokens) - 1 else \
             ('I-' + tag)
-    samples.append({'tokens': [token[0] for token in tokens], 'ner_tags': ner_tags})
+    samples.append({'text': [token[0] for token in tokens], 'labels': ner_tags})
   with open('train.json', 'w') as f:
     f.write(json.dumps(samples, ensure_ascii = False))
 
