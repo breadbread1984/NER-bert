@@ -27,6 +27,7 @@ python3 run_ner.py \
   --output_dir ./ckpt_ner \
   --do_train \
   --overwrite_output_dir \
+  --label_all_tokens \
   [--num_train_epochs <epoch number>]
 ```
 
