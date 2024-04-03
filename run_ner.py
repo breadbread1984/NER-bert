@@ -608,6 +608,8 @@ def main():
         trainer.log_metrics("train", metrics)
         trainer.save_metrics("train", metrics)
         trainer.save_state()
+        if not exists(join(training_args.output_dir, 'config.json')):
+            model.config.to_json_file(join(training_args.output_dir, 'config.json'))
 
     # Evaluation
     if training_args.do_eval:
